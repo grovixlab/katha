@@ -18,7 +18,7 @@
         {{/if}}
         <button type="submit" class="button">Take Book</button>
     </form>
-</div> 
+</div>
 <style>
     /* Container styles */
     .container {
@@ -86,3 +86,26 @@
         background-color: #005bb5;
     }
 </style>
+<script>
+    document.getElementById('bookId').addEventListener('input', function () {
+        var bookId = this.value;
+
+        if (bookId) {
+            fetch(`/books/api/book/${bookId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.bookName) {
+                        document.getElementById('bookName').value = data.bookName;
+                    } else {
+                        document.getElementById('bookName').value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching book name:', error);
+                    document.getElementById('bookName').value = '';
+                });
+        } else {
+            document.getElementById('bookName').value = '';
+        }
+    });
+</script>

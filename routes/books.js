@@ -21,4 +21,28 @@ router.post('/add', async (req, res) => {
     }
 });
 
+// Fetch Book by ID
+router.get('/api/book/:id', async (req, res) => {
+    const bookId = req.params.id;
+    console.log(bookId);
+    
+    // Ensure the ID is a valid MongoDB ObjectId
+    if (!bookId) {
+        return res.status(400).json({ message: 'Invalid book ID' });
+    }
+
+    try {
+        const book = await Book.findOne({ bookId: bookId });
+
+        if (book) {
+            res.json({ bookName: book.bookName });
+        } else {
+            res.status(404).json({ message: 'Book not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
 module.exports = router;
