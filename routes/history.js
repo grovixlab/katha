@@ -34,7 +34,7 @@ const isNotAuthorised = (req, res, next) => {
 }
 
 // Book Taking Registration Route
-router.get('/take', (req, res) => {
+router.get('/borrow', (req, res) => {
     res.render('book-take', { title: "Register Book Taking" });
 });
 

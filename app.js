@@ -81,7 +81,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', logRouter);
 app.use('/', indexRouter);
 app.use('/books', require('./routes/books'));
-app.use('/students', require('./routes/students'));
+app.use('/members', require('./routes/member'));
 app.use('/history', require('./routes/history'));
 
 // catch 404 and forward to error handler
