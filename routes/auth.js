@@ -98,10 +98,10 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
     }
     if (!password) {
         return res.render('login', { title: "Login", style: ['regform'], user: req.session && req.session.user ? req.session.user : false, data: req.body, error: { message: 'Password is required.' } });
-    } 
+    }
 
     try {
-        if (username === 'admin' && password === 'AdminLuminaraNhss') {
+        if (username === process.env.USER && password === process.env.PASSW) {
             req.session.logged = true;
             res.redirect('/');  // Redirect to a dashboard or another page upon successful login
         } else {

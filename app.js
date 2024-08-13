@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -24,7 +25,7 @@ var logRouter = require('./routes/auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.use(cors()); 
+app.use(cors());
 app.use(favicon(path.join(__dirname, 'public', '/img/favicon.png')))
 app.engine('hbs', handlebars.engine({
   extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/', partialsDir: __dirname + '/views/partials/', helpers: {
