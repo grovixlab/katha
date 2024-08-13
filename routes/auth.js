@@ -117,7 +117,7 @@ router.post('/auth/login', isNotAuthorised, async (req, res, next) => {
 
 
 // Logout
-router.get('/logout', isAuthorised, async (req, res, next) => {
+router.get('/auth/logout', isAuthorised, async (req, res, next) => {
     try {
         // Destroy the session
         req.session.logged = false;
