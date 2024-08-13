@@ -24,7 +24,6 @@ router.post('/add', async (req, res) => {
 // Fetch Book by ID
 router.get('/api/book/:id', async (req, res) => {
     const bookId = req.params.id;
-    console.log(bookId);
     
     // Ensure the ID is a valid MongoDB ObjectId
     if (!bookId) {

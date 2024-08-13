@@ -6,12 +6,16 @@
             <input type="text" id="studentId" name="studentId" required>
         </div>
         <div class="input-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" disabled name="studentName" required>
+        </div>
+        <div class="input-group">
             <label for="bookId">Book ID</label>
             <input type="text" id="bookId" name="bookId" required>
         </div>
         <div class="input-group">
             <label for="bookName">Book Name</label>
-            <input type="text" id="bookName" name="bookName" required>
+            <input type="text" id="bookName" disabled name="bookName" required>
         </div>
         {{#if error}}
         <div class="error-message">{{error.message}}</div>
@@ -106,6 +110,28 @@
                 });
         } else {
             document.getElementById('bookName').value = '';
+        }
+    });
+
+    document.getElementById('studentId').addEventListener('input', function () {
+        var studentId = this.value;
+
+        if (studentId) {
+            fetch(`/students/api/student/${studentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.studentName) {
+                        document.getElementById('studentName').value = data.studentName;
+                    } else {
+                        document.getElementById('studentName').value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching student name:', error);
+                    document.getElementById('studentName').value = '';
+                });
+        } else {
+            document.getElementById('studentName').value = '';
         }
     });
 </script>
