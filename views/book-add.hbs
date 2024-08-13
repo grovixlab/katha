@@ -13,6 +13,9 @@
             <label for="bookAuthor">Book Author</label>
             <input type="text" id="bookAuthor" name="bookAuthor" required>
         </div>
+        {{#if error}}
+        <div class="error-message">{{error.message}}</div>
+        {{/if}}
         <button type="submit" class="button">Add Book</button>
     </form>
 </div>

@@ -11,20 +11,41 @@ router.get('/add', (req, res) => {
 
 router.post('/add', async (req, res) => {
     const { bookName, bookNumber, bookAuthor } = req.body;
+    console.log('Received bookNumber:', bookNumber);
+
     try {
-        const book = new Book({ bookName, bookId: bookNumber, author:bookAuthor });
-        await book.save();
+        if (!bookNumber) {
+            return res.render('book-add', { title: "Add Book", error: { message: 'Book number cannot be null' } });
+        }
+
+        if (!bookName) {
+            return res.render('book-add', { title: "Add Book", error: { message: 'Book name cannot be null' } });
+        }
+
+        if (!bookAuthor) {
+            return res.render('book-add', { title: "Add Book", error: { message: 'Book author cannot be null' } });
+        }
+
+        const newBook = new Book({ bookName, bookId: bookNumber, author: bookAuthor });
+        await newBook.save();
         res.redirect('/books/add');
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+        
+        console.log(err);
+
+        if (err.code === 11000) {
+            return res.render('book-add', { title: "Add Book", error: { message: 'Duplicate book number' } });
+        } else {
+            return res.render('book-add', { title: "Add Book", error: { message: 'Internal server error' } });
+        }
     }
 });
+
 
 // Fetch Book by ID
 router.get('/api/book/:id', async (req, res) => {
     const bookId = req.params.id;
-    
+
     // Ensure the ID is a valid MongoDB ObjectId
     if (!bookId) {
         return res.status(400).json({ message: 'Invalid book ID' });

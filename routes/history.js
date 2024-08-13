@@ -40,18 +40,31 @@ router.get('/borrow', (req, res) => {
 
 router.post('/take', isAuthorised, async (req, res) => {
     const { memberId, bookId, bookName } = req.body;
+
     try {
         let member = await Member.findOne({ memberId: memberId }).lean();
-        let book = await Book.findOne({ bookId: bookId }).lean();
+        let book = await Book.findOne({ bookId: bookId });
+
         if (!member) {
             return res.render('book-take', { title: "Register Member", error: { message: 'Member not registered.' } });
         }
         if (!book) {
             return res.render('book-take', { title: "Register Member", error: { message: 'Book not registered.' } });
         }
+
+        // Check if the book is already taken
+        if (book.status === 'taken') {
+            return res.render('book-take', { title: "Register Member", error: { message: 'Book is already taken.' } });
+        }
+
+        // Update book status to 'taken'
+        book.status = 'taken';
+        await book.save();
+
         const dueDate = moment().add(7, 'days').toDate();
         const history = new History({ memberId, bookId, bookName, dueDate, studentDbID: member._id, bookDbID: book._id });
         await history.save();
+
         res.redirect('/history/borrow');
     } catch (err) {
         console.error(err);
@@ -70,7 +83,6 @@ router.get('/', isAuthorised, async (req, res) => {
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
             entry.studentName = member ? member.studentName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
-            entry.fine = moment().diff(entry.dueDate, 'days') * 5;
         }
 
         // Fetch books taken
@@ -115,6 +127,7 @@ router.post('/return', isAuthorised, async (req, res) => {
     try {
         let member = await Member.findOne({ memberId: memberId }).lean();
         let book = await Book.findOne({ bookId: bookId }).lean();
+        let upBook = await Book.findOne({ bookId: bookId });
         if (!member) {
             return res.render('book-return', { title: "Register Member", error: { message: 'Member not registered.' } });
         }
@@ -123,6 +136,9 @@ router.post('/return', isAuthorised, async (req, res) => {
         }
         const historyEntry = await History.findOne({ memberId, bookId, status: 'taken' });
         if (historyEntry) {
+            // Update book status to 'taken'
+            upBook.status = 'available';
+            await upBook.save();
             historyEntry.status = 'returned';
             await historyEntry.save();
         }

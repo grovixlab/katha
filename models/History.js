@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const historySchema = new mongoose.Schema({
     memberId: { type: String, ref: 'Member', required: true, ref: 'Member' },
-    bookId: { type: Number, ref: 'Book', required: true, ref: 'Book' },
+    bookId: { type: String, ref: 'Book', required: true, ref: 'Book' },
     bookName: { type: String, required: true },
     status: { type: String, enum: ['taken', 'returned'], default: 'taken' },
     dueDate: { type: Date, required: true },
