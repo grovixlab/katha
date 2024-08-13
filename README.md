@@ -18,11 +18,20 @@
 3. **Set Up Your Code Editor**:
    - We recommend using [Visual Studio Code](https://code.visualstudio.com/) for editing and managing the code.
 
-4. **Install npm Packages**:
+4. **Configure Environment Variables**:
+   - In the root directory of the unzipped files, create a file named `.env`.
+   - Add your admin credentials to this file with the following format:
+
+     ```
+     USER=<your username>
+     PASSW=<your password>
+     ```
+
+5. **Install npm Packages**:
    - Open a terminal in the directory where you unzipped the files.
    - Run the command: `npm install` to install all necessary packages.
 
-5. **Start the Server**:
+6. **Start the Server**:
    - In the terminal, start the server by running: `node ./bin/www`.
 
 ### Running the Server Continuously

@@ -1,7 +1,4 @@
-<div class="login-container">
-    <div class="login-logo">
-        <img src="/img/luminara.png" alt="Logo">
-    </div>
+<div class="container">
     <form class="login-form" action="/auth/login" method="post">
         <div class="input-group">
             <label for="username">Username</label>
@@ -14,75 +11,73 @@
         {{#if error}}
         <div class="error-message">{{error.message}}</div>
         {{/if}}
-        <button type="submit" class="login-button">Login</button>
+        <button type="submit" class="login-button button">Login</button>
     </form>
 </div>
 <style>
-    body {
-        background-color: #f0f0f0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        font-family: Arial, sans-serif;
-    }
-
-    .login-container {
-        background-color: #fff;
+    /* Container styles */
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
         padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 300px;
+        border-radius: 8px;
+    }
+
+    .container h1 {
         text-align: center;
-    }
-
-    .login-logo img {
-        width: 100px;
         margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
     }
 
-    .login-form {
+    /* Form styles */
+    form {
         display: flex;
         flex-direction: column;
     }
 
+    /* Input group styles */
     .input-group {
         margin-bottom: 15px;
-        text-align: left;
     }
 
     .input-group label {
         display: block;
         margin-bottom: 5px;
-        color: #333;
+        font-size: 16px;
+        color: #555;
     }
 
-    .input-group input {
+    .input-group input,
+    .input-group select {
         width: 100%;
         padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
         box-sizing: border-box;
     }
 
-    .error-message {
-        color: red;
-        margin-bottom: 15px;
-        text-align: left;
+    .input-group input:focus,
+    .input-group select:focus {
+        border-color: red;
+        outline: none;
     }
 
-    .login-button {
-        background-color: #0078e8;
-        color: white;
+    /* Button styles */
+    .button {
+        background-color: red;
+        color: #fff;
         border: none;
-        padding: 10px;
-        border-radius: 3px;
-        cursor: pointer;
+        padding: 15px;
         font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
-    .login-button:hover {
+    .button:hover {
         background-color: #005bb5;
     }
 </style>
