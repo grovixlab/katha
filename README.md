@@ -25,6 +25,49 @@
 5. **Start the Server**:
    - In the terminal, start the server by running: `node ./bin/www`.
 
+### Running the Server Continuously
+
+To ensure the server runs 24/7 or starts automatically when the system boots up, you need to create a script and configure it for automatic execution.
+
+**For Windows:**
+
+1. Create a `.bat` file:
+   - Open Notepad and write the following script:
+
+     ```bat
+     @echo off
+     cd /d "C:\path\to\your\katha\directory"
+     node ./bin/www
+     ```
+
+   - Save this file with a `.bat` extension, for example, `start-katha.bat`.
+
+2. Add to Startup:
+   - Press `Win + R`, type `shell:startup`, and press Enter.
+   - Place a shortcut to the `.bat` file in the startup folder.
+
+**For Linux/MacOS:**
+
+1. Create a `.sh` file:
+   - Open a terminal and write the following script:
+
+     ```bash
+     #!/bin/bash
+     cd /path/to/your/katha/directory
+     node ./bin/www
+     ```
+
+   - Save this file with a `.sh` extension, for example, `start-katha.sh`.
+
+   - Make it executable with the command: `chmod +x start-katha.sh`.
+
+2. Add to Startup:
+   - To run on system startup, add the script to your system’s startup applications or use `cron` jobs. For example, edit the `crontab` with `crontab -e` and add:
+
+     ```bash
+     @reboot /path/to/start-katha.sh
+     ```
+
 ### Support
 
 If you have any questions or need further assistance, please contact our support team at [support@grovixlab.com](mailto:support@grovixlab.com).
