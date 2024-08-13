@@ -4,6 +4,39 @@ const Book = require('../models/Book');
 let mongoose = require('mongoose');
 let ObjectId = mongoose.Types.ObjectId;
 
+// Book Listing Route
+router.get('/', async (req, res) => {
+    const books = await Book.find().sort({ _id: -1 }).lean();
+    res.render('books', { title: "Books", books });
+});
+
+// Book Search Route
+router.post('/search', async (req, res) => {
+    let { q } = req.body;
+    q = q.toString(); // Ensure q is a string
+
+    // Create a case-insensitive search query to match any part of bookName, author, or bookId
+    const query = {
+        $or: [
+            { bookName: { $regex: q, $options: 'i' } },
+            { author: { $regex: q, $options: 'i' } },
+            { bookId: { $regex: q, $options: 'i' } }
+        ]
+    };
+
+    try {
+        // Fetch the books that match the query
+        const books = await Book.find(query).sort({ _id: -1 }).lean();
+
+        // Render the books page with the filtered results
+        res.render('books', { title: `Results (${q})`, q, books });
+    } catch (error) {
+        console.error('Error during search:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 // Book Adding Route
 router.get('/add', (req, res) => {
     res.render('book-add', { title: "Add Book" });
@@ -11,7 +44,6 @@ router.get('/add', (req, res) => {
 
 router.post('/add', async (req, res) => {
     const { bookName, bookNumber, bookAuthor } = req.body;
-    console.log('Received bookNumber:', bookNumber);
 
     try {
         if (!bookNumber) {
@@ -26,18 +58,17 @@ router.post('/add', async (req, res) => {
             return res.render('book-add', { title: "Add Book", error: { message: 'Book author cannot be null' } });
         }
 
-        const newBook = new Book({ bookName, bookId: bookNumber, author: bookAuthor });
+        let bookId = await bookNumber.toString();
+
+        const newBook = new Book({ bookName, bookId, author: bookAuthor });
         await newBook.save();
         res.redirect('/books/add');
-    } catch (err) {
         
-        console.log(err);
+    } catch (err) {
 
-        if (err.code === 11000) {
-            return res.render('book-add', { title: "Add Book", error: { message: 'Duplicate book number' } });
-        } else {
-            return res.render('book-add', { title: "Add Book", error: { message: 'Internal server error' } });
-        }
+        console.log(err);
+        return res.render('book-add', { title: "Add Book", error: { message: 'Internal server error' } });
+
     }
 });
 

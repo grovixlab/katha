@@ -1,0 +1,92 @@
+<div class="container">
+    <h1>Library Books</h1>
+
+    <!-- Search Bar -->
+    <form class="search-bar" action="/books/search" method="post">
+        <input type="text" id="searchInput" name="q" value="{{q}}" placeholder="Search for books...">
+    </form>
+
+    <!-- Books Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Author</th>
+                <th>Book ID</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="booksTable">
+            {{#each books}}
+            <tr>
+                <td>{{this.bookName}}</td>
+                <td>{{this.author}}</td>
+                <td>{{this.bookId}}</td>
+                <td class="status {{this.status}}">{{this.status}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<style>
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .search-bar {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .search-bar input {
+        width: 60%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #0078e8;
+        color: white;
+    }
+
+    .status.available {
+        color: green;
+    }
+
+    .status.taken {
+        color: black;
+    }
+
+    .status.overdue {
+        color: red;
+    }
+</style>
