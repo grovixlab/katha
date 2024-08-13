@@ -1,6 +1,6 @@
 ## Katha - Library Management Software
 
-**Katha** is a library management software developed by Grovix Lab, designed to streamline library operations. This software is open-source and published under the MIT License.
+**Katha** is a library management software developed by Grovix Lab, designed to streamline library operations. This software is open-source and published under the [MIT License](https://github.com/grovixlab/katha/blob/main/LICENSE).
 
 ### Prerequisites
 
