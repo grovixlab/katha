@@ -1,6 +1,13 @@
 <div class="container">
     <h1>History</h1>
 
+    <!-- Navigation Buttons -->
+    <div class="history-buttons">
+        <a href="/history/overdue" class="button">Overdue Books</a>
+        <a href="/history/taken" class="button">Books Taken</a>
+        <a href="/history/returned" class="button">Books Returned</a>
+    </div>
+
     <h2>Overdue Books</h2>
     <table>
         <thead>
@@ -106,5 +113,25 @@
 
     .returned td {
         color: green;
+    }
+
+    /* History buttons styles */
+    .history-buttons {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .history-buttons .button {
+        background-color: red;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    .history-buttons .button:hover {
+        background-color: #005bb5;
     }
 </style>
