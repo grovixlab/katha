@@ -8,4 +8,7 @@ const studentSchema = new mongoose.Schema({
     memberId: { type: String, required: true }
 }); 
 
+// Create a text index on studentName, registerNumber, and memberId
+studentSchema.index({ studentName: 'text', registerNumber: 'text', memberId: 'text' });
+
 module.exports = mongoose.model('Member', studentSchema);

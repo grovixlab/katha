@@ -40,6 +40,40 @@ async function generateUniqueId() {
     return uniqueId;
 }
 
+// Members Listing Route
+router.get('/', async (req, res) => {
+    const members = await Member.find().sort({ _id: -1 }).lean();
+    res.render('members', { title: "Members", members });
+});
+
+// Member Search Route
+router.post('/search', async (req, res) => {
+    let { q } = req.body;
+    q = q.toString(); // Ensure q is a string
+
+    // Create a case-insensitive search query to match any part of bookName, author, or bookId
+    const query = {
+        $or: [
+            { studentName: { $regex: q, $options: 'i' } },
+            { registerNumber: { $regex: q, $options: 'i' } },
+            { standard: { $regex: q, $options: 'i' } },
+            { division: { $regex: q, $options: 'i' } },
+            { memberId: { $regex: q, $options: 'i' } }
+        ]
+    };
+
+    try {
+        // Fetch the books that match the query
+        const members = await Member.find(query).sort({ _id: -1 }).lean();
+
+        // Render the books page with the filtered results
+        res.render('members', { title: `Results (${q})`, q, members });
+    } catch (error) {
+        console.error('Error during search:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 // Member Registration Route
 router.get('/register', isAuthorised, (req, res) => {
