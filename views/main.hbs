@@ -1,25 +1,36 @@
 {{>header}}
 <div class="btbnContainer">
     <div class="buttons">
-        <button class="button">
-            <img class="button-img" src="/img/button/borrow.png" alt="Borrow">
-        </button>
-        <button class="button">
-            <img class="button-img" src="/img/button/return.png" alt="Borrow">
-        </button>
-        <button class="button">
-            <img class="button-img" src="/img/button/addmember.png" alt="Borrow">
-        </button>
-        <button class="button">
-            <img class="button-img" src="/img/button/addbook.png" alt="Borrow">
-        </button>
-
-        <button class="button">
-            <img class="button-img" src="/img/button/downid.png" alt="Borrow">
-        </button>
-        <button class="button">
-            <img class="button-img" src="/img/button/downstamp.png" alt="Borrow">
-        </button>
+        <a href="/borrow" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/borrow.png" alt="Borrow">
+            </button>
+        </a>
+        <a href="/return" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/return.png" alt="Return">
+            </button>
+        </a>
+        <a href="/add-member" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/addmember.png" alt="Add Member">
+            </button>
+        </a>
+        <a href="/add-book" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/addbook.png" alt="Add Book">
+            </button>
+        </a>
+        <a href="/download-id" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/downid.png" alt="Download ID">
+            </button>
+        </a>
+        <a href="/download-stamp" class="button-link">
+            <button class="button">
+                <img class="button-img" src="/img/button/downstamp.png" alt="Download Stamp">
+            </button>
+        </a>
     </div>
 </div>
 
@@ -44,6 +55,11 @@
         max-width: 90%;
     }
 
+    /* Button link styles */
+    .button-link {
+        text-decoration: none;
+    }
+
     /* Button styles */
     .button {
         display: flex;
@@ -56,6 +72,7 @@
         transition: transform 0.2s ease;
         height: 160px;
         /* Ensures buttons are square (height matches width) */
+        width: 100%;
     }
 
     /* Button image styles */
