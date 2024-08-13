@@ -40,7 +40,7 @@ function getCurrentDate() {
 
 // Home
 router.get('/', isAuthorised, (req, res) => {
-  res.render('main', { title: 'Main Page / Katha' });
+  res.render('main', { title: 'Main Page' });
 });
 
 // Login
