@@ -7,7 +7,7 @@
         </div>
         <div class="input-group">
             <label for="studentName">Member Name</label>
-            <input type="text" id="studentName" disabled name="studentName" required>
+            <input type="text" id="studentName" readonly name="studentName" required>
         </div>
         <div class="input-group">
             <label for="bookId">Book ID</label>
@@ -15,7 +15,7 @@
         </div>
         <div class="input-group">
             <label for="bookName">Book Name</label>
-            <input type="text" id="bookName" disabled name="bookName" required>
+            <input type="text" id="bookName" readonly name="bookName" required>
         </div>
         {{#if error}}
         <div class="error-message">{{error.message}}</div>

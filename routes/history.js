@@ -52,7 +52,7 @@ router.post('/take', isAuthorised, async (req, res) => {
         const dueDate = moment().add(7, 'days').toDate();
         const history = new History({ memberId, bookId, bookName, dueDate, studentDbID: member._id, bookDbID: book._id });
         await history.save();
-        res.redirect('/history/take');
+        res.redirect('/history/borrow');
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
