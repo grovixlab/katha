@@ -25,6 +25,7 @@ var logRouter = require('./routes/auth');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.use(cors()); 
+app.use(favicon(path.join(__dirname, 'public', '/img/favicon.png')))
 app.engine('hbs', handlebars.engine({
   extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/', partialsDir: __dirname + '/views/partials/', helpers: {
     ifequal: function (arg1, arg2, options) {
