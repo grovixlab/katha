@@ -117,7 +117,7 @@
         var studentId = this.value;
 
         if (studentId) {
-            fetch(`/students/api/student/${studentId}`)
+            fetch(`/members/api/member/${studentId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.studentName) {

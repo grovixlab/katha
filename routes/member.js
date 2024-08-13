@@ -85,7 +85,7 @@ router.post('/register', isAuthorised, async (req, res) => {
 });
 
 // Fetch Member by ID
-router.get('/api/student/:id', async (req, res) => {
+router.get('/api/member/:id', async (req, res) => {
     const studentId = req.params.id;
 
     if (!studentId) {
