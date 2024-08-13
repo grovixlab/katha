@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Student = require('../models/Student');
+const Student = require('../models/Member');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const QRCode = require('qrcode');

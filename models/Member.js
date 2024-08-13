@@ -8,4 +8,4 @@ const studentSchema = new mongoose.Schema({
     studentId: { type: String, required: true, unique: true }
 });
 
-module.exports = mongoose.model('Student', studentSchema);
+module.exports = mongoose.model('Member', studentSchema);
