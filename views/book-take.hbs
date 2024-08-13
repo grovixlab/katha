@@ -2,11 +2,11 @@
     <h1>Register Book Taking</h1>
     <form action="/history/take" method="POST">
         <div class="input-group">
-            <label for="studentId">Student ID</label>
-            <input type="text" id="studentId" name="studentId" required>
+            <label for="memberId">Member ID</label>
+            <input type="text" id="memberId" name="memberId" required>
         </div>
         <div class="input-group">
-            <label for="studentName">Student Name</label>
+            <label for="studentName">Member Name</label>
             <input type="text" id="studentName" disabled name="studentName" required>
         </div>
         <div class="input-group">
@@ -113,11 +113,11 @@
         }
     });
 
-    document.getElementById('studentId').addEventListener('input', function () {
-        var studentId = this.value;
+    document.getElementById('memberId').addEventListener('input', function () {
+        var memberId = this.value;
 
-        if (studentId) {
-            fetch(`/members/api/member/${studentId}`)
+        if (memberId) {
+            fetch(`/members/api/member/${memberId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.studentName) {
@@ -127,7 +127,7 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Error fetching student name:', error);
+                    console.error('Error fetching member name:', error);
                     document.getElementById('studentName').value = '';
                 });
         } else {

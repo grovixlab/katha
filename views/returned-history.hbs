@@ -57,14 +57,14 @@
         <table>
             <thead>
                 <tr>
-                    <th>Student Name</th>
+                    <th>Member Name</th>
                     <th>Book Name</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each booksReturned}}
                 <tr>
-                    <td>{{this.studentName}} ({{this.studentId}})</td>
+                    <td>{{this.studentName}} ({{this.memberId}})</td>
                     <td>{{this.bookName}} ({{this.bookId}})</td>
                 </tr>
                 {{/each}}

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const History = require('../models/History');
-const Student = require('../models/Member');
+const Member = require('../models/Member');
 const Book = require('../models/Book');
 const moment = require('moment');
 let mongoose = require('mongoose');
@@ -39,18 +39,18 @@ router.get('/borrow', (req, res) => {
 });
 
 router.post('/take', isAuthorised, async (req, res) => {
-    const { studentId, bookId, bookName } = req.body;
+    const { memberId, bookId, bookName } = req.body;
     try {
-        let student = await Student.findOne({ studentId: studentId }).lean();
+        let member = await Member.findOne({ memberId: memberId }).lean();
         let book = await Book.findOne({ bookId: bookId }).lean();
-        if (!student) {
-            return res.render('book-take', { title: "Register Student", error: { message: 'Student not registered.' } });
+        if (!member) {
+            return res.render('book-take', { title: "Register Member", error: { message: 'Member not registered.' } });
         }
         if (!book) {
-            return res.render('book-take', { title: "Register Student", error: { message: 'Book not registered.' } });
+            return res.render('book-take', { title: "Register Member", error: { message: 'Book not registered.' } });
         }
         const dueDate = moment().add(7, 'days').toDate();
-        const history = new History({ studentId, bookId, bookName, dueDate, studentDbID: student._id, bookDbID: book._id });
+        const history = new History({ memberId, bookId, bookName, dueDate, studentDbID: member._id, bookDbID: book._id });
         await history.save();
         res.redirect('/history/take');
     } catch (err) {
@@ -66,9 +66,9 @@ router.get('/', isAuthorised, async (req, res) => {
         // Fetch overdue books
         const overdueBooks = await History.find({ status: 'taken', dueDate: { $lt: new Date() } }).lean();
         for (let entry of overdueBooks) {
-            const student = await Student.findOne({ studentId: entry.studentId }); // Find student by custom ID
+            const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = student ? student.studentName : 'Unknown';
+            entry.studentName = member ? member.studentName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
             entry.fine = moment().diff(entry.dueDate, 'days') * 5;
         }
@@ -76,18 +76,18 @@ router.get('/', isAuthorised, async (req, res) => {
         // Fetch books taken
         const booksTaken = await History.find({ status: 'taken', dueDate: { $gte: new Date() } }).lean();
         for (let entry of booksTaken) {
-            const student = await Student.findOne({ studentId: entry.studentId }); // Find student by custom ID
+            const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = student ? student.studentName : 'Unknown';
+            entry.studentName = member ? member.studentName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
         // Fetch books returned
         const booksReturned = await History.find({ status: 'returned' }).lean();
         for (let entry of booksReturned) {
-            const student = await Student.findOne({ studentId: entry.studentId }); // Find student by custom ID
+            const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = student ? student.studentName : 'Unknown';
+            entry.studentName = member ? member.studentName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
@@ -111,17 +111,17 @@ router.get('/return', isAuthorised, (req, res) => {
 });
 
 router.post('/return', isAuthorised, async (req, res) => {
-    const { studentId, bookId } = req.body;
+    const { memberId, bookId } = req.body;
     try {
-        let student = await Student.findOne({ studentId: studentId }).lean();
+        let member = await Member.findOne({ memberId: memberId }).lean();
         let book = await Book.findOne({ bookId: bookId }).lean();
-        if (!student) {
-            return res.render('book-return', { title: "Register Student", error: { message: 'Student not registered.' } });
+        if (!member) {
+            return res.render('book-return', { title: "Register Member", error: { message: 'Member not registered.' } });
         }
         if (!book) {
-            return res.render('book-return', { title: "Register Student", error: { message: 'Book not registered.' } });
+            return res.render('book-return', { title: "Register Member", error: { message: 'Book not registered.' } });
         }
-        const historyEntry = await History.findOne({ studentId, bookId, status: 'taken' });
+        const historyEntry = await History.findOne({ memberId, bookId, status: 'taken' });
         if (historyEntry) {
             historyEntry.status = 'returned';
             await historyEntry.save();
@@ -141,9 +141,9 @@ router.get('/overdue', isAuthorised, async (req, res) => {
         // Fetch overdue books
         const overdueBooks = await History.find({ status: 'taken', dueDate: { $lt: new Date() } }).lean();
         for (let entry of overdueBooks) {
-            const student = await Student.findOne({ studentId: entry.studentId }); // Find student by custom ID
+            const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = student ? student.studentName : 'Unknown';
+            entry.studentName = member ? member.studentName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
             entry.fine = moment().diff(entry.dueDate, 'days') * 5;
         }
@@ -165,13 +165,13 @@ router.get('/taken', isAuthorised, async (req, res) => {
         // Fetch books taken
         const booksTaken = await History.find({ status: 'taken', dueDate: { $gte: new Date() } }).lean();
         for (let entry of booksTaken) {
-            const student = await Student.findOne({ studentId: entry.studentId }); // Find student by custom ID
+            const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = student ? student.studentName : 'Unknown';
+            entry.studentName = member ? member.studentName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
-        // Render the page with book and student details
+        // Render the page with book and member details
         res.render('taken-history', {
             title: "Books Taken History",
             booksTaken,
@@ -189,9 +189,9 @@ router.get('/returned', isAuthorised, async (req, res) => {
         // Fetch books returned
         const booksReturned = await History.find({ status: 'returned' }).lean();
         for (let entry of booksReturned) {
-            const student = await Student.findOne({ studentId: entry.studentId }); // Find student by custom ID
+            const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = student ? student.studentName : 'Unknown';
+            entry.studentName = member ? member.studentName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 

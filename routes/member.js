@@ -35,37 +35,40 @@ const isNotAuthorised = (req, res, next) => {
 
 async function generateUniqueId() {
     let uniqueId = await 'LR' + Math.floor(10000 + Math.random() * 90000);
-    let student = await Member.findOne({ studentId: uniqueId }).lean();
-    student ? uniqueId = await 'LR' + Math.floor(10000 + Math.random() * 90000) : null;
+    let member = await Member.findOne({ memberId: uniqueId }).lean();
+    member ? uniqueId = await 'LR' + Math.floor(10000 + Math.random() * 90000) : null;
     return uniqueId;
 }
 
 
 // Member Registration Route
 router.get('/register', isAuthorised, (req, res) => {
-    res.render('student-register', { title: "Register Member" });
+    res.render('member-register', { title: "Register Member" });
 });
 
 router.post('/register', isAuthorised, async (req, res) => {
     const { studentName, registerNumber, standard, division } = req.body;
-    let student = await Member.findOne({ registerNumber: registerNumber }).lean();
-    if (student) {
-        return res.render('student-register', { title: "Register Member", error: { message: 'Member already registered.' } });
+    
+    let member = await Member.findOne({ registerNumber: registerNumber }).lean();
+    if (member) {
+        return res.render('member-register', { title: "Register Member", error: { message: 'Member already registered.' } });
     }
-    const studentId = await generateUniqueId();
+    
+    const memberId = await generateUniqueId();
 
     try {
         // Create a document
         const doc = new PDFDocument();
-        const student = new Member({ studentName, registerNumber, standard, division, studentId: studentId });
-        await student.save();
+        const member = new Member({ studentName, registerNumber, standard, division, memberId: memberId });
+        await member.save();
+        
 
         // Generate QR code 
-        const qrData = JSON.stringify({ studentId, studentName, registerNumber, standard, division });
+        const qrData = JSON.stringify({ memberId, studentName, registerNumber, standard, division });
         const qrCodeUrl = await QRCode.toDataURL(qrData);
 
         doc.fontSize(16).text('Luminara', { align: 'center' });
-        doc.fontSize(12).text(`Member ID: ${studentId}`);
+        doc.fontSize(12).text(`Member ID: ${memberId}`);
         doc.text(`Name: ${studentName}`);
         doc.text(`Register Number: ${registerNumber}`);
         doc.text(`Standard: ${standard}`);
@@ -86,16 +89,16 @@ router.post('/register', isAuthorised, async (req, res) => {
 
 // Fetch Member by ID
 router.get('/api/member/:id', async (req, res) => {
-    const studentId = req.params.id;
+    const memberId = req.params.id;
 
-    if (!studentId) {
-        return res.status(400).json({ message: 'Invalid student ID' });
+    if (!memberId) {
+        return res.status(400).json({ message: 'Invalid member ID' });
     }
 
     try {
-        const student = await Member.findOne({ studentId: studentId });
-        if (student) {
-            res.json({ studentName: student.studentName });
+        const member = await Member.findOne({ memberId: memberId });
+        if (member) {
+            res.json({ studentName: member.studentName });
         } else {
             res.status(404).json({ message: 'Member not found' });
         }

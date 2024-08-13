@@ -2,7 +2,7 @@
     <h1>Register a Member</h1>
     <form action="/members/register" method="POST">
         <div class="input-group">
-            <label for="studentName">Student Name</label>
+            <label for="studentName">Member Name</label>
             <input type="text" id="studentName" name="studentName" required>
         </div>
         <div class="input-group">
@@ -27,7 +27,13 @@
                 <option value="C">C</option>
             </select>
         </div>
-        <button type="submit" class="button">Register Student</button>
+        <!-- Error message section -->
+        {{#if error}}
+        <div class="error-message" style="color: red; margin-bottom: 15px;">
+            {{error.message}}
+        </div>
+        {{/if}}
+        <button type="submit" class="button">Register Member</button>
     </form>
 </div>
 <style>
@@ -95,5 +101,11 @@
 
     .button:hover {
         background-color: #005bb5;
+    }
+
+    /* Error message styles */
+    .error-message {
+        color: red;
+        font-size: 14px;
     }
 </style>
