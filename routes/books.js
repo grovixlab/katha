@@ -102,7 +102,7 @@ router.post('/update/', async (req, res) => {
 
         // Ensure all required fields are present
         if (!bookId || !bookName || !author) {
-            return res.render('book-edit', { title: "Edit Book", book, error: { message: 'All fields are required' } });
+            return res.render('book-edit', { title: "Edit Book", book: req.body, error: { message: 'All fields are required' } });
         }
 
         // Perform the update operation
@@ -113,7 +113,7 @@ router.post('/update/', async (req, res) => {
 
         // Check if the update was successful
         if (result.nModified === 0) {
-            return res.render('book-edit', { title: "Edit Book", book, error: { message: 'Update failed or no changes made' } });
+            return res.render('book-edit', { title: "Edit Book", book: req.body, error: { message: 'Update failed or no changes made' } });
         }
 
         // Redirect to the books list on successful update
@@ -121,7 +121,11 @@ router.post('/update/', async (req, res) => {
     } catch (err) {
         // Log and handle any errors that occur
         console.log('Error updating book:', err);
-        return res.redirect('/books');
+        res.render('book-edit', {
+            title: "Edit Book",
+            error: { message: 'Internal server error' },
+            book: req.body // Retain input values
+        });
     }
 });
 
