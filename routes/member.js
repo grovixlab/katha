@@ -183,6 +183,32 @@ router.post('/update/', async (req, res) => {
     }
 });
 
+// Member Deleting Route
+router.delete('/delete/:memberId', async (req, res) => {
+    try {
+        // Ensure memberId is provided
+        if (!req.params.memberId) {
+            return res.status(400).json({ message: 'Member ID is required' });
+        }
+
+        // Attempt to delete the member by memberId
+        const result = await Member.deleteOne({ memberId: req.params.memberId });
+
+        // Check if any document was deleted
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Member not found' });
+        }
+
+        // Respond with success message if deletion is successful
+        res.status(200).json({ message: 'Member deleted successfully' });
+    } catch (err) {
+        // Log and handle any errors that occur
+        console.log('Error deleting member:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 
 
