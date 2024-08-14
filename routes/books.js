@@ -125,6 +125,32 @@ router.post('/update/', async (req, res) => {
     }
 });
 
+// Book Deleting Route
+router.delete('/delete/:bookId', async (req, res) => {
+    try {
+        // Ensure bookId is provided
+        if (!req.params.bookId) {
+            return res.status(400).json({ message: 'Book ID is required' });
+        }
+
+        // Attempt to delete the book by bookId
+        const result = await Book.deleteOne({ bookId: req.params.bookId });
+
+        // Check if any document was deleted
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
+
+        // Respond with success message if deletion is successful
+        res.status(200).json({ message: 'Book deleted successfully' });
+    } catch (err) {
+        // Log and handle any errors that occur
+        console.log('Error deleting book:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 
 // Fetch Book by ID
