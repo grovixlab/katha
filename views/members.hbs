@@ -13,19 +13,19 @@
                 <th>Member Name</th>
                 <th>Reg No</th>
                 <th>Member ID</th>
-                <th>Standard</th>
-                <th>Division</th>
+                <th>Phone No</th>
+                <th>Email</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody id="membersTable">
             {{#each members}}
             <tr>
-                <td>{{this.studentName}}</td>
+                <td>{{this.memberName}}</td>
                 <td>{{this.registerNumber}}</td>
                 <td>{{this.memberId}}</td>
-                <td>{{this.standard}}</td>
-                <td>{{this.division}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.email}}</td>
                 <td>
                     <a href="/members/edit/{{this.memberId}}" class="button edit-button">Edit</a>
                     <button type="button" class="button delete-button" data-id="{{this.memberId}}">Delete</button>

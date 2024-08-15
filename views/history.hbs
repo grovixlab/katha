@@ -20,7 +20,7 @@
             {{#each overdueBooks}}
             <tr class="overdue">
                 <td>{{this.bookName}} ({{this.bookId}})</td>
-                <td>{{this.studentName}} ({{this.memberId}})</td>
+                <td>{{this.memberName}} ({{this.memberId}})</td>
             </tr>
             {{/each}}
         </tbody>
@@ -38,7 +38,7 @@
             {{#each booksTaken}}
             <tr class="taken">
                 <td>{{this.bookName}} ({{this.bookId}})</td>
-                <td>{{this.studentName}} ({{this.memberId}})</td>
+                <td>{{this.memberName}} ({{this.memberId}})</td>
             </tr>
             {{/each}}
         </tbody>
@@ -56,7 +56,7 @@
             {{#each booksReturned}}
             <tr class="returned">
                 <td>{{this.bookName}} ({{this.bookId}})</td>
-                <td>{{this.studentName}} ({{this.memberId}})</td>
+                <td>{{this.memberName}} ({{this.memberId}})</td>
             </tr>
             {{/each}}
         </tbody>

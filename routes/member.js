@@ -54,10 +54,10 @@ router.post('/search', async (req, res) => {
     // Create a case-insensitive search query to match any part of bookName, author, or bookId
     const query = {
         $or: [
-            { studentName: { $regex: q, $options: 'i' } },
+            { memberName: { $regex: q, $options: 'i' } },
             { registerNumber: { $regex: q, $options: 'i' } },
-            { standard: { $regex: q, $options: 'i' } },
-            { division: { $regex: q, $options: 'i' } },
+            { phone: { $regex: q, $options: 'i' } },
+            { email: { $regex: q, $options: 'i' } },
             { memberId: { $regex: q, $options: 'i' } }
         ]
     };
@@ -81,7 +81,7 @@ router.get('/register', isAuthorised, (req, res) => {
 });
 
 router.post('/register', isAuthorised, async (req, res) => {
-    const { studentName, registerNumber, standard, division } = req.body;
+    const { memberName, registerNumber, phone, email } = req.body;
 
     let member = await Member.findOne({ registerNumber: registerNumber }).lean();
     if (member) {
@@ -93,20 +93,20 @@ router.post('/register', isAuthorised, async (req, res) => {
     try {
         // Create a document
         const doc = new PDFDocument();
-        const member = new Member({ studentName, registerNumber, standard, division, memberId: memberId });
+        const member = new Member({ memberName, registerNumber, phone, email, memberId: memberId });
         await member.save();
 
 
         // Generate QR code 
-        const qrData = JSON.stringify({ memberId, studentName, registerNumber, standard, division });
+        const qrData = JSON.stringify({ memberId, memberName, registerNumber, phone, email });
         const qrCodeUrl = await QRCode.toDataURL(qrData);
 
         doc.fontSize(16).text('Luminara', { align: 'center' });
         doc.fontSize(12).text(`Member ID: ${memberId}`);
-        doc.text(`Name: ${studentName}`);
+        doc.text(`Name: ${memberName}`);
         doc.text(`Register Number: ${registerNumber}`);
-        doc.text(`Standard: ${standard}`);
-        doc.text(`Division: ${division}`);
+        doc.text(`Phone No: ${phone}`);
+        doc.text(`Email: ${email}`);
         doc.text(' ');
         doc.image(qrCodeUrl, { fit: [100, 100], align: 'center' });
 
@@ -144,10 +144,10 @@ router.get('/edit/:memberId', async (req, res) => {
 // Member Update Route
 router.post('/update/', async (req, res) => {
     try {
-        const { memberId, studentName, registerNumber, standard, division } = req.body;
+        const { memberId, memberName, registerNumber, phone, email } = req.body;
 
         // Ensure all required fields are present
-        if (!memberId || !studentName || !registerNumber || !standard || !division) {
+        if (!memberId || !memberName || !registerNumber || !phone || !email) {
             return res.render('member-edit', {
                 title: "Edit Member",
                 error: { message: 'All fields are required' },
@@ -158,7 +158,7 @@ router.post('/update/', async (req, res) => {
         // Perform the update operation
         const result = await Member.updateOne(
             { memberId },
-            { $set: { studentName, registerNumber, standard, division } }
+            { $set: { memberName, registerNumber, phone, email } }
         );
 
         // Check if the update was successful
@@ -223,7 +223,7 @@ router.get('/api/member/:id', async (req, res) => {
     try {
         const member = await Member.findOne({ memberId: memberId });
         if (member) {
-            res.json({ studentName: member.studentName });
+            res.json({ memberName: member.memberName });
         } else {
             res.status(404).json({ message: 'Member not found' });
         }

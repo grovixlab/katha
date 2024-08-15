@@ -2,30 +2,20 @@
     <h1>Register a Member</h1>
     <form action="/members/register" method="POST">
         <div class="input-group">
-            <label for="studentName">Member Name</label>
-            <input type="text" id="studentName" name="studentName" required>
+            <label for="memberName">Member Name</label>
+            <input type="text" id="memberName" name="memberName" required>
         </div>
         <div class="input-group">
             <label for="registerNumber">Register Number</label>
             <input type="text" id="registerNumber" name="registerNumber" required>
         </div>
         <div class="input-group">
-            <label for="standard">Standard</label>
-            <select id="standard" name="standard" required>
-                <option value="" disabled selected>Select Standard</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>
+            <label for="phone">Phone No</label>
+            <input type="number" name="phone" id="phone">
         </div>
         <div class="input-group">
-            <label for="division">Division</label>
-            <select id="division" name="division" required>
-                <option value="" disabled selected>Select Division</option>
-                <option value="CS">CS</option>
-                <option value="S">S</option>
-                <option value="H">H</option>
-                <option value="C">C</option>
-            </select>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="emai">
         </div>
         <!-- Error message section -->
         {{#if error}}

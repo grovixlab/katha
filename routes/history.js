@@ -81,7 +81,7 @@ router.get('/', isAuthorised, async (req, res) => {
         for (let entry of overdueBooks) {
             const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = member ? member.studentName : 'Unknown';
+            entry.memberName = member ? member.memberName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
@@ -90,7 +90,7 @@ router.get('/', isAuthorised, async (req, res) => {
         for (let entry of booksTaken) {
             const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = member ? member.studentName : 'Unknown';
+            entry.memberName = member ? member.memberName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
@@ -99,7 +99,7 @@ router.get('/', isAuthorised, async (req, res) => {
         for (let entry of booksReturned) {
             const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = member ? member.studentName : 'Unknown';
+            entry.memberName = member ? member.memberName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
@@ -159,7 +159,7 @@ router.get('/overdue', isAuthorised, async (req, res) => {
         for (let entry of overdueBooks) {
             const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = member ? member.studentName : 'Unknown';
+            entry.memberName = member ? member.memberName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
             entry.fine = moment().diff(entry.dueDate, 'days') * 5;
         }
@@ -183,7 +183,7 @@ router.get('/taken', isAuthorised, async (req, res) => {
         for (let entry of booksTaken) {
             const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = member ? member.studentName : 'Unknown';
+            entry.memberName = member ? member.memberName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
@@ -207,7 +207,7 @@ router.get('/returned', isAuthorised, async (req, res) => {
         for (let entry of booksReturned) {
             const member = await Member.findOne({ memberId: entry.memberId }); // Find member by custom ID
             const book = await Book.findOne({ bookId: entry.bookId });            // Find book by custom ID
-            entry.studentName = member ? member.studentName : 'Unknown';
+            entry.memberName = member ? member.memberName : 'Unknown';
             entry.bookName = book ? book.bookName : 'Unknown';
         }
 
